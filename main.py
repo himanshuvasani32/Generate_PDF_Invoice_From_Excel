@@ -23,7 +23,9 @@ for filepath in filepaths:
     columns = df.columns
     header_data = [item.replace("_", " ").title() for item in columns]
 
+    # Added table header data
     pdf.set_font(family="Times", style="B", size=12)
+    pdf.set_text_color(80, 80, 80)
     pdf.cell(w=25, h=8, txt=header_data[0], border=1)
     pdf.cell(w=60, h=8, txt=header_data[1], border=1)
     pdf.cell(w=40, h=8, txt=header_data[2], border=1)
@@ -39,6 +41,26 @@ for filepath in filepaths:
         pdf.cell(w=40, h=8, txt=str(row["amount_purchased"]), border=1)
         pdf.cell(w=30, h=8, txt=str(row["price_per_unit"]), border=1)
         pdf.cell(w=30, h=8, txt=str(row["total_price"]), border=1, ln=1)
+
+    # Added total sum value
+    total_sum = df["total_price"].sum()
+    pdf.set_font(family="Times", size=12, style="B")
+    pdf.set_text_color(80, 80, 80)
+    pdf.cell(w=25, h=8, txt="", border=1)
+    pdf.cell(w=60, h=8, txt="", border=1)
+    pdf.cell(w=40, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt=str(total_sum), border=1, ln=1)
+
+    # Added total sum sentence
+    pdf.set_font(family="Times", size=14, style="B")
+    pdf.set_text_color(80, 80, 80)
+    pdf.cell(w=0, h=8, txt=f"The total value of invoice is {total_sum}.", ln=1)
+
+    # Added company name and logo
+    pdf.set_font(family="Times", size=14, style="B")
+    pdf.cell(w=25, h=8, txt="PythonHow")
+    pdf.image("pythonhow.png", w=10)
 
     pdf.output(f"PDFs/{filename}.pdf")
 
